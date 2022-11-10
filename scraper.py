@@ -109,9 +109,9 @@ def get_scraper(selected) :
                 link = section.find("div").find("a")
                 href = link.get("href")
 
-                print ( href ) 
+                # print ( href ) 
                 course_name , instructor  , description , enrolled , ratings = single_course( href )
-                print ( instructor)
+                # print ( instructor)
                 sheet.append([
                     selected , 
                     course_name , 
