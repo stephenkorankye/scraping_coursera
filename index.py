@@ -20,8 +20,17 @@ try :
         soup = BeautifulSoup(source.text , "html.parser")
         
         # print ( soup ) 
-        courses = soup.find( "section" , class_="rc-ProductOfferings").find_all("section")
-        print (  len( courses))
+        # sections = soup.find( "div" , class_="offerings-wrapper").find_all( "div" , class_="rc-CardSection productCard-titleSection")
+        sections = soup.find( "div" , class_="offerings-wrapper").find_all( "div" , class_="rc-CardSection productCard-titleSection")
+        # print (  ( sections))
+
+        for section in sections : 
+            print ( section ) 
+            # link = soup.find( "a").get_text() 
+            # print ( link ) 
+            print ('\n')
+            
+        print ( len ( sections ))
 
 
     funct() 
