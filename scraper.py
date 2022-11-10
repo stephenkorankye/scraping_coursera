@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup 
 import requests , openpyxl 
+import os 
 
 
 
@@ -18,7 +19,7 @@ def get_scraper(selected) :
         "Math and Logic": "math-and-logic", 
         "Physical Science Engineering" : "physical-science-and-engineering" , 
         "Social Sciences": "social-sciences", 
-        "Arts and Humanities": "arts-and-humanites"
+        "Arts and Humanities": "arts-and-humanities"
 
     }
 
@@ -120,6 +121,8 @@ def get_scraper(selected) :
                     ratings
 
                 ])
+
+                
                  
                 
 
@@ -134,6 +137,6 @@ def get_scraper(selected) :
         print ( e ) 
 
 
-    excel.save( selected +".xlsx") 
+    excel.save( os.path.join("static/" + selected +".xlsx")) 
 
     return { True , selected } 

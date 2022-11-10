@@ -9,6 +9,9 @@ from pydantic import BaseModel, Field
 from scraper import get_scraper
 
 
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
 
 app = FastAPI() 
 
@@ -19,26 +22,34 @@ class Category(BaseModel):
 
 
 
-@app.get("/{filename}")
-async def get_site(filename):
-    filename = './' + filename
-
-    if not isfile(filename):
-        return Response(status_code=404)
-
-    with open(filename) as f:
-        content = f.read()
-
-    content_type, _ = guess_type(filename)
-    return Response(content, media_type=content_type)
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 
 
-@app.get("/")
-async def home(): 
-    print ( "Hello world" ) 
-    return await get_site('index.html')
+# @app.get("/{filename}")
+# async def get_site(filename):
+#     filename = './' + filename
+
+#     if not isfile(filename):
+#         return Response(status_code=404)
+
+#     with open(filename) as f:
+#         content = f.read()
+
+#     content_type, _ = guess_type(filename)
+#     return Response(content, media_type=content_type)
+
+
+
+
+# @app.get("/")
+# async def home(): 
+#     print ( "Hello world" ) 
+#     return await get_site('index.html')
+
+
+
 
 
 @app.post("/scrape")
