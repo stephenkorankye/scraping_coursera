@@ -4,11 +4,9 @@ from fastapi import Response , Request
 # from starlette.responses import Response
 from mimetypes import guess_type
 
-
-from typing import List, Optional
-from uuid import UUID, uuid4
 from pydantic import BaseModel, Field
-from enum import Enum  
+
+from scraper import get_scraper
 
 
 
@@ -17,9 +15,7 @@ app = FastAPI()
 
 class Category(BaseModel):
     name : str 
-    
-   
-   
+      
 
 
 
@@ -47,6 +43,14 @@ async def home():
 
 @app.post("/scrape")
 async def scrape_it( data : Request):
-    nn = await data.body() 
-    print (nn)
-    return { "q" : True } 
+    nn = await data.body()
+    nn = str(nn) 
+    nn = nn.split('b')[1] 
+    nn = nn.strip("''") 
+    print ( nn ) 
+    ans , value = get_scraper(nn) 
+   
+    if ans : 
+        return { "success" : True } 
+   
+    return { "success" : True } 

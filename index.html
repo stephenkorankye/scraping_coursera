@@ -97,6 +97,7 @@
 
             let loading = document.getElementById("loading") ; 
             loading.style.display = "block" ; 
+            loading.innerHTML = "LOADING..." ; 
             
 
            
@@ -108,7 +109,6 @@
                 contentType: false, 
                 processData: false,
                 success : (data) => {
-                    // alert ( "It is done ") ; 
                     loading.innerHTML = "SUCCESS!"
                 } ,
                 error : ( err ) => {
