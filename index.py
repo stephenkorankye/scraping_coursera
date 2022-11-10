@@ -1,6 +1,7 @@
-from fastapi import FastAPI     
+from fastapi import FastAPI , Form   
 from os.path import isfile
-from fastapi import Response
+from fastapi import Response , Request
+# from starlette.responses import Response
 from mimetypes import guess_type
 
 
@@ -15,7 +16,7 @@ app = FastAPI()
 
 
 class Category(BaseModel):
-    category : str 
+    name : str 
     
    
    
@@ -45,6 +46,7 @@ async def home():
 
 
 @app.post("/scrape")
-async def scrape_it(data : Response):
-    print (  ) 
+async def scrape_it( data : Request):
+    nn = await data.body() 
+    print (nn)
     return { "q" : True } 
