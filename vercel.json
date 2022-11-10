@@ -1,8 +1,8 @@
 {
     "builds": [
-      {"src": "/server/index.py", "use": "@now/python"}
+      {"src": "/index.py", "use": "@now/python"}
     ],
     "routes": [
-      {"src": "/(.*)", "dest": "server/index.py"}
+      {"src": "/(.*)", "dest": "/index.py"}
     ]
   }
