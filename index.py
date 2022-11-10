@@ -3,6 +3,7 @@ import requests , openpyxl
 
 
 
+
 categories = {
     "Data Science" : "data-science" , 
     "Business": "business" , 
@@ -21,11 +22,10 @@ categories = {
 
 
 
-query = "Machine Learning" 
-query = "%20".join(query.split(" "))
 
+# Scraping a single page 
 
-def single_course(base_url ,url) : 
+def single_course(url) : 
     url = "https://coursera.org" + url 
     print ( url )
     source = requests.get (url) 
@@ -36,7 +36,7 @@ def single_course(base_url ,url) :
     main = soup.find("main") 
 
     instructor = main.find("div" , class_="rc-BannerInstructorInfo")
-    instructor = instructor.find("a").get_text(strip=True).split("Â")[0]
+    instructor = instructor.find("a").get_text(strip=True).split("Â")[0].split(",")[0]
 
     enrolled = soup.find("div" , class_="rc-ProductMetrics").find("strong").find("span").text or "N/A"
 
@@ -48,7 +48,9 @@ def single_course(base_url ,url) :
 
     # print ( instructor, enrolled , course_name , description , ratings )
 
-    print ( enrolled )
+    return [
+        course_name , instructor  , description , enrolled , ratings
+    ]
 
 
 
@@ -61,13 +63,30 @@ url = "https://www.coursera.org/specializations/statistics"
 # single_course(url) 
 
 
+excel = openpyxl.Workbook() 
+sheet = excel.active 
+
+
+sheet.append([
+    "Category Name" , 
+    "Course Name" , 
+    "First Instructor" , 
+    "Course Description" , 
+    "# of Students" , 
+    "# of Ratings" 
+])
+
+
+selected = categories["Health"]
+
+sheet.title = selected 
 
 try : 
 
-    def funct() :
+    def scrape() :
 
-        # url = "https://www.coursera.org/search?query=" + query
-        url = "https://www.coursera.org/browse/" + categories["Health"]
+      
+        url = "https://www.coursera.org/browse/" + selected
         print ( url )
         source = requests.get (url) 
 
@@ -85,16 +104,21 @@ try :
             href = link.get("href")
 
             print ( href ) 
-            single_course( url , href )
-            break 
+            course_name , instructor  , description , enrolled , ratings = single_course( href )
+            print ( instructor)
+            sheet.append([
+                selected , 
+                course_name , 
+                instructor , 
+                description , 
+                enrolled , 
+                ratings
+
+            ])
              
 
-           
-            
-        # print ( len ( sections ))
 
-
-    funct() 
+    scrape() 
 
     
 
@@ -102,3 +126,6 @@ try :
 except Exception as e :
     print ( "There is an error")
     print ( e ) 
+
+
+excel.save(selected +".xlsx") 
