@@ -25,7 +25,11 @@ try :
         # print (  ( sections))
 
         for section in sections : 
-            print ( section ) 
+            link = section.find("div")
+            link = link.find("a")
+            href = link.get("href")
+            print ( href ) 
+            # print ( section ) 
             # link = soup.find( "a").get_text() 
             # print ( link ) 
             print ('\n')
